@@ -31,3 +31,13 @@
 **Why:** Sune chose the name.
 
 **Files:** `project.godot` (game name), `scenes/ui/title_screen.tscn`, `README.md`, `CLAUDE.md`.
+
+## Later in the session: phone keyboard for names
+
+**What changed:** On the iPhone, tapping the name box (or the code box) in the web version now opens the phone's keyboard. Before, you couldn't type your name from the phone.
+
+**Why:** Sune found it on the iPhone. The text boxes were fine; Godot's web export only opens the phone keyboard when its "virtual keyboard" option is on, and it was off. Godot still calls the option experimental.
+
+**How to test:** On the iPhone, open the playable link → Multiplayer → tap the Code box, or Host → tap "Your name". The keyboard should appear.
+
+**Files:** `export_presets.cfg` (`html/experimental_virtual_keyboard=true`).
