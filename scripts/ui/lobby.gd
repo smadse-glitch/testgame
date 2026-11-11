@@ -17,6 +17,10 @@ extends Control
 @export var other_player_timeout := 5.0
 ## Seconds between "still here" messages.
 @export var ping_interval := 1.0
+## Name used for the host when they don't type one.
+@export var host_default_name := "Player1"
+## Name used for the guest when they don't type one.
+@export var guest_default_name := "Player2"
 ## Numbers shown in the countdown, one per second.
 @export var countdown_from := 3
 
@@ -46,7 +50,7 @@ func _ready() -> void:
 		_my_ready_label = %GuestReady
 		_other_ready_label = %HostReady
 	_my_name_edit.editable = true
-	_my_name_edit.placeholder_text = "Your name"
+	_my_name_edit.placeholder_text = _default_name(Net.is_host)
 	_my_name_edit.text = Net.my_name
 	_my_name_edit.text_changed.connect(func(_text: String) -> void: _send_hello())
 
@@ -166,8 +170,8 @@ func _start_countdown() -> void:
 	if not counting_down:
 		%CountdownLabel.visible = false
 		return
-	Net.my_name = _display_name(_my_name_edit.text, "You")
-	Net.other_name = _display_name(Net.other_name, "Friend")
+	Net.my_name = _display_name(_my_name_edit.text, _default_name(Net.is_host))
+	Net.other_name = _display_name(Net.other_name, _default_name(not Net.is_host))
 	get_tree().change_scene_to_file("res://scenes/multiplayer_game.tscn")
 
 
@@ -220,7 +224,7 @@ func _send_hello() -> void:
 func _update_view() -> void:
 	var paired := other_id != ""
 	_other_name_edit.text = Net.other_name if paired else ""
-	_other_name_edit.placeholder_text = "Friend" if paired else "Waiting…"
+	_other_name_edit.placeholder_text = _default_name(not Net.is_host) if paired else "Waiting…"
 	_other_ready_label.text = ("Ready!" if other_ready else "Not ready") if paired else ""
 	_my_ready_label.text = "Ready!" if my_ready else "Not ready"
 	_my_name_edit.editable = not counting_down
@@ -237,6 +241,11 @@ func _wait(seconds: float) -> void:
 	timer.start(seconds)
 	await timer.timeout
 	timer.queue_free()
+
+
+## Player1 for the host, Player2 for the guest.
+func _default_name(for_host: bool) -> String:
+	return host_default_name if for_host else guest_default_name
 
 
 func _display_name(text: String, fallback: String) -> String:

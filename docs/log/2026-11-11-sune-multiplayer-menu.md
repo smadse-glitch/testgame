@@ -41,3 +41,17 @@
 **How to test:** On the iPhone, open the playable link → Multiplayer → tap the Code box, or Host → tap "Your name". The keyboard should appear.
 
 **Files:** `export_presets.cfg` (`html/experimental_virtual_keyboard=true`).
+
+## Later in the session: iPhone keyboard parked, default names Player1/Player2
+
+**What changed:** In the lobby the host is called **Player1** and the guest **Player2** unless they type a name. The default shows faintly in the name box and is used in the game if the box is left empty (it used to be "You"/"Friend").
+
+**Why:** On the iPhone the keyboard doesn't open, so you can't type a name there. Sune parked that bug as [#2](https://github.com/smadse-glitch/testgame/issues/2) (cause and planned fix are on the card). Clear default names make the game playable from a phone without typing. Joining from a phone works through the host's Copy link.
+
+**Decisions:** Not fixing the iPhone keyboard now (bug #2, Backlog). The keyboard option switched on earlier (`html/experimental_virtual_keyboard`) stays on; it's harmless and may help on other phones.
+
+**How to test:** Host and join without typing names, press Ready in both: the squares are labelled Player1 and Player2.
+
+**Files:** `scripts/ui/lobby.gd` (the default names are `host_default_name` and `guest_default_name` in the Inspector).
+
+**Cards:** #2 (bug, parked)
