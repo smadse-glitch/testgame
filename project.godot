@@ -12,9 +12,13 @@ config_version=5
 
 config/name="[GAME NAME]"
 config/version="0.0"
-run/main_scene="res://scenes/main.tscn"
+run/main_scene="res://scenes/ui/title_screen.tscn"
 config/features=PackedStringArray("4.7", "GL Compatibility")
 config/icon="res://icon.svg"
+
+[autoload]
+
+Net="*res://scripts/autoload/net.gd"
 
 [display]
 
@@ -22,6 +26,10 @@ window/size/viewport_width=1280
 window/size/viewport_height=720
 window/stretch/mode="canvas_items"
 window/stretch/aspect="expand"
+
+[gui]
+
+theme/custom="res://assets/ui_theme.tres"
 
 [input_devices]
 

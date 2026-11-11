@@ -1,0 +1,74 @@
+[gd_scene load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://scripts/ui/multiplayer_menu.gd" id="1_menu"]
+
+[node name="MultiplayerMenu" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_menu")
+
+[node name="Center" type="CenterContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Box" type="VBoxContainer" parent="Center"]
+custom_minimum_size = Vector2(460, 0)
+layout_mode = 2
+theme_override_constants/separation = 20
+
+[node name="Title" type="Label" parent="Center/Box"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 44
+text = "Multiplayer"
+horizontal_alignment = 1
+
+[node name="HostButton" type="Button" parent="Center/Box"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 72)
+layout_mode = 2
+text = "Host a game"
+
+[node name="Or" type="Label" parent="Center/Box"]
+layout_mode = 2
+text = "or join a friend's game:"
+horizontal_alignment = 1
+
+[node name="JoinRow" type="HBoxContainer" parent="Center/Box"]
+layout_mode = 2
+theme_override_constants/separation = 12
+
+[node name="CodeEdit" type="LineEdit" parent="Center/Box/JoinRow"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 72)
+layout_mode = 2
+size_flags_horizontal = 3
+placeholder_text = "Code"
+alignment = 1
+max_length = 8
+
+[node name="JoinButton" type="Button" parent="Center/Box/JoinRow"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(160, 72)
+layout_mode = 2
+text = "Join"
+
+[node name="StatusLabel" type="Label" parent="Center/Box"]
+unique_name_in_owner = true
+modulate = Color(1, 0.75, 0.4, 1)
+layout_mode = 2
+horizontal_alignment = 1
+autowrap_mode = 3
+
+[node name="BackButton" type="Button" parent="Center/Box"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 56)
+layout_mode = 2
+text = "Back"

@@ -1,0 +1,157 @@
+[gd_scene load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://scripts/ui/lobby.gd" id="1_lobby"]
+
+[node name="Lobby" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_lobby")
+
+[node name="Margin" type="MarginContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 48
+theme_override_constants/margin_top = 32
+theme_override_constants/margin_right = 48
+theme_override_constants/margin_bottom = 32
+
+[node name="Box" type="VBoxContainer" parent="Margin"]
+layout_mode = 2
+theme_override_constants/separation = 20
+
+[node name="CodeRow" type="HBoxContainer" parent="Margin/Box"]
+layout_mode = 2
+alignment = 1
+theme_override_constants/separation = 20
+
+[node name="CodeLabel" type="Label" parent="Margin/Box/CodeRow"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_font_sizes/font_size = 40
+text = "Game code: …"
+
+[node name="CopyButton" type="Button" parent="Margin/Box/CodeRow"]
+unique_name_in_owner = true
+visible = false
+custom_minimum_size = Vector2(0, 56)
+layout_mode = 2
+text = "Copy code"
+
+[node name="StatusLabel" type="Label" parent="Margin/Box"]
+unique_name_in_owner = true
+modulate = Color(1, 0.75, 0.4, 1)
+layout_mode = 2
+text = "Connecting…"
+horizontal_alignment = 1
+autowrap_mode = 3
+
+[node name="Players" type="HBoxContainer" parent="Margin/Box"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_constants/separation = 40
+
+[node name="HostPanel" type="PanelContainer" parent="Margin/Box/Players"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Box" type="VBoxContainer" parent="Margin/Box/Players/HostPanel"]
+layout_mode = 2
+alignment = 1
+theme_override_constants/separation = 20
+
+[node name="Role" type="Label" parent="Margin/Box/Players/HostPanel/Box"]
+modulate = Color(0.3, 0.61, 0.91, 1)
+layout_mode = 2
+theme_override_font_sizes/font_size = 36
+text = "Host"
+horizontal_alignment = 1
+
+[node name="HostName" type="LineEdit" parent="Margin/Box/Players/HostPanel/Box"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(320, 64)
+layout_mode = 2
+size_flags_horizontal = 4
+placeholder_text = "Waiting…"
+alignment = 1
+max_length = 16
+editable = false
+
+[node name="HostReady" type="Label" parent="Margin/Box/Players/HostPanel/Box"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Not ready"
+horizontal_alignment = 1
+
+[node name="GuestPanel" type="PanelContainer" parent="Margin/Box/Players"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Box" type="VBoxContainer" parent="Margin/Box/Players/GuestPanel"]
+layout_mode = 2
+alignment = 1
+theme_override_constants/separation = 20
+
+[node name="Role" type="Label" parent="Margin/Box/Players/GuestPanel/Box"]
+modulate = Color(0.95, 0.6, 0.25, 1)
+layout_mode = 2
+theme_override_font_sizes/font_size = 36
+text = "Guest"
+horizontal_alignment = 1
+
+[node name="GuestName" type="LineEdit" parent="Margin/Box/Players/GuestPanel/Box"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(320, 64)
+layout_mode = 2
+size_flags_horizontal = 4
+placeholder_text = "Waiting…"
+alignment = 1
+max_length = 16
+editable = false
+
+[node name="GuestReady" type="Label" parent="Margin/Box/Players/GuestPanel/Box"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Not ready"
+horizontal_alignment = 1
+
+[node name="ButtonRow" type="HBoxContainer" parent="Margin/Box"]
+layout_mode = 2
+alignment = 1
+theme_override_constants/separation = 24
+
+[node name="LeaveButton" type="Button" parent="Margin/Box/ButtonRow"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(200, 72)
+layout_mode = 2
+text = "Leave"
+
+[node name="ReadyButton" type="Button" parent="Margin/Box/ButtonRow"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(260, 72)
+layout_mode = 2
+disabled = true
+text = "Ready"
+
+[node name="CountdownLabel" type="Label" parent="."]
+unique_name_in_owner = true
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_font_sizes/font_size = 200
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 24
+text = "3"
+horizontal_alignment = 1
+vertical_alignment = 1
