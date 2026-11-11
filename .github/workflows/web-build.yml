@@ -1,0 +1,87 @@
+name: Web build
+
+# On every push to main: check the game starts, export it for the web, and,
+# when the repo variable DEPLOY_PAGES is "true", publish it to GitHub Pages
+# so the playable link always shows the latest main.
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: web-build
+  cancel-in-progress: true
+
+env:
+  GODOT_VERSION: "4.7.2" # keep in sync with CLAUDE.md and project.godot
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          lfs: true # fetch images and audio stored with Git LFS
+
+      - name: Restore Godot from cache
+        id: cache-godot
+        uses: actions/cache@v6
+        with:
+          path: |
+            ~/godot
+            ~/.local/share/godot/export_templates
+          key: godot-${{ env.GODOT_VERSION }}-web
+
+      - name: Download Godot and its web export templates
+        if: steps.cache-godot.outputs.cache-hit != 'true'
+        run: |
+          set -euo pipefail
+          base="https://github.com/godotengine/godot/releases/download/${GODOT_VERSION}-stable"
+          mkdir -p ~/godot
+          curl -sSfL -o /tmp/godot.zip "$base/Godot_v${GODOT_VERSION}-stable_linux.x86_64.zip"
+          unzip -q /tmp/godot.zip -d ~/godot
+          mv ~/godot/Godot_v${GODOT_VERSION}-stable_linux.x86_64 ~/godot/godot
+          curl -sSfL -o /tmp/templates.tpz "$base/Godot_v${GODOT_VERSION}-stable_export_templates.tpz"
+          dest=~/.local/share/godot/export_templates/${GODOT_VERSION}.stable
+          mkdir -p "$dest"
+          unzip -q -j /tmp/templates.tpz 'templates/web_nothreads_*' 'templates/version.txt' -d "$dest"
+
+      - name: Import the project
+        run: ~/godot/godot --headless --path . --import
+
+      - name: Check the game starts
+        run: |
+          ~/godot/godot --headless --path . --quit-after 120 2>&1 | tee /tmp/run.log
+          if grep -E "SCRIPT ERROR|Parse Error|ERROR:" /tmp/run.log; then
+            echo "::error::The game printed errors when starting. See the lines above."
+            exit 1
+          fi
+
+      - name: Export the web build
+        run: |
+          mkdir -p build/web
+          touch build/.gdignore
+          ~/godot/godot --headless --path . --export-release "Web" build/web/index.html
+          test -f build/web/index.html
+
+      - name: Upload the web build
+        uses: actions/upload-pages-artifact@v5
+        with:
+          path: build/web
+
+  deploy:
+    if: vars.DEPLOY_PAGES == 'true'
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Publish to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v5

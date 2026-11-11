@@ -1,0 +1,11 @@
+# Godot's cache and our exports
+.godot/
+/build/
+
+# macOS
+.DS_Store
+
+# Personal Claude Code settings and worktrees (not shared)
+.claude/settings.local.json
+.claude/worktrees/
+CLAUDE.local.md

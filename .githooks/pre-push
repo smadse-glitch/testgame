@@ -1,0 +1,32 @@
+#!/bin/sh
+# Runs before every push, whoever pushes: Claude, a terminal or GitHub Desktop.
+# 1. Checks that the game starts, so a broken game never reaches GitHub.
+# 2. Uploads Git LFS files (images, audio) along with the push.
+# Switch hooks on once per copy of the repo: git config core.hooksPath .githooks
+
+repo_root="$(git rev-parse --show-toplevel)"
+godot="${GODOT:-/Applications/Godot.app/Contents/MacOS/Godot}"
+
+if [ -x "$godot" ]; then
+  if [ ! -d "$repo_root/.godot" ]; then
+    "$godot" --headless --path "$repo_root" --import >/dev/null 2>&1 </dev/null
+  fi
+  log="$(mktemp)"
+  "$godot" --headless --path "$repo_root" --quit-after 120 >"$log" 2>&1 </dev/null
+  if grep -E "SCRIPT ERROR|Parse Error|ERROR:" "$log" >&2; then
+    rm -f "$log"
+    printf >&2 '\nPush stopped: the game prints errors when it starts (see above).\n'
+    printf >&2 'Ask Claude to fix it, or run /what-broke. Nothing was sent.\n\n'
+    exit 1
+  fi
+  rm -f "$log"
+else
+  printf >&2 'Note: Godot not found at %s, so the start check was skipped.\n' "$godot"
+  printf >&2 'Install Godot 4.7.2 in Applications, or set GODOT to its path.\n'
+fi
+
+command -v git-lfs >/dev/null 2>&1 || {
+  printf >&2 "\nThis repo uses Git LFS, but 'git-lfs' isn't installed. See SETUP.md, part 0.\n\n"
+  exit 2
+}
+git lfs pre-push "$@"
