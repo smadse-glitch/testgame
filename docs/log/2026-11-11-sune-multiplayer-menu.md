@@ -23,3 +23,11 @@
 **Files:** `project.godot` (start screen, `Net` autoload, bigger UI text), `scripts/autoload/net.gd` (new), `scenes/ui/` and `scripts/ui/` (title, multiplayer menu, lobby, all new), `scenes/multiplayer_game.tscn` and `scripts/multiplayer_game.gd` (new), `scenes/main.tscn` and `scripts/main.gd` (Menu button), `assets/ui_theme.tres` (new), `docs/decisions/006-…` (new).
 
 **Cards:** None
+
+## Later in the session: the game has a name
+
+**What changed:** The game is called **Are you Square?** It shows on the title screen, in the window title and browser tab, in `README.md` and `CLAUDE.md`. The board is renamed "Are you Square? board".
+
+**Why:** Sune chose the name.
+
+**Files:** `project.godot` (game name), `scenes/ui/title_screen.tscn`, `README.md`, `CLAUDE.md`.

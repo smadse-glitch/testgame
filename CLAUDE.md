@@ -4,7 +4,7 @@ Every Claude session in this repo reads this file first. Follow it. If something
 
 ## About this project
 
-- **Game:** [GAME NAME] (see `docs/decisions/` for what we've decided so far)
+- **Game:** Are you Square? (see `docs/decisions/` for what we've decided so far)
 - **Team:** Sune and Maik. Two hobbyists who work on this whenever we have time. Neither of us reads or writes code.
 - **Language:** talk to us, and write logs, decisions and commit messages, in **English**. (Change this line to switch language, e.g. to Danish.)
 - **Playable link:** https://smadse-glitch.github.io/testgame/

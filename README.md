@@ -1,4 +1,4 @@
-# [GAME NAME]
+# Are you Square?
 
 A hobby game by Sune and Maik, built in Godot with Claude.
 

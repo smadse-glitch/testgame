@@ -10,7 +10,7 @@ config_version=5
 
 [application]
 
-config/name="[GAME NAME]"
+config/name="Are you Square?"
 config/version="0.0"
 run/main_scene="res://scenes/ui/title_screen.tscn"
 config/features=PackedStringArray("4.7", "GL Compatibility")
